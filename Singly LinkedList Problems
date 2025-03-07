@@ -161,7 +161,59 @@ detectCycle(){
 
         return slow
     }
+//4.return the Duplicate sorted
+    returnDuplicateSorted(){
+        let current = this.head
+        while(current!==null && current.next!==null){
+            if(current.value===current.next.value){
+                current.next=current.next.next;
+                this.length--;
+            }else{
+                current=current.next;
+            }
+        }
+        return this;
+    }
+//5.return the remove duplicate from unsorted array
+removeDuplicateUnsorted(){
+    if(!this.head) return undefined
+    const uniqueValue = new Set()
+    let current = this.head
+    let prev = null
+
+    while(current !== null){
+     if(uniqueValue.has(current.value)){
+         prev.next=current.next
+         this.length--
+     } else{
+         uniqueValue.add(current.value)
+         prev=current
+     }
+        current=current.next
+    }
+    this.tail = prev
+    return this
 }
+//6.Reverse the linkedlist and return head
+
+    reverseList(){
+        let temp=this.head
+        this.head = this.tail;
+        this.tail=temp
+
+        let next=temp.next
+        let prev = null
+
+        for(let i=0;i<this.length;i++){
+            next=temp.next
+            temp.next=prev
+            prev=temp
+            temp=next
+        }
+        return this.head
+    }
+}
+
 
 
 
