@@ -1,0 +1,108 @@
+class Node{
+    constructor(value){
+        this.value = value
+        this.next = null
+    }
+}
+
+class Stack{
+    constructor(value){
+        const newNode = new Node(value);
+        this.top=newNode
+        this.length = 1
+    }
+
+    push(value){
+    const newNode = new Node(value);
+    if(this.length === 0){
+        this.top = newNode
+    }else{
+        newNode.next = this.top
+        this.top = newNode
+    }
+    this.length ++
+    return this
+    }
+
+    pop(){
+        if(this.length === 0) return undefined
+        let temp = this.top
+
+        if(this.length === 1){
+            this.top = null
+        }else{
+            let temp = this.top
+            this.top = this.top.next
+            temp.next = null
+        }
+        this.length --;
+        return temp
+    }
+    isEmpty(){
+        return this.length === 0;
+    }
+
+    peek(){
+        return this.length > 0 ? this.top.value : undefined;
+    }
+}
+//problem 1
+function reversedString(inputString){
+        const stack = new Stack(null);
+
+        for(let char of inputString){
+            stack.push(char);
+        }
+        let reversedString="";
+        while(stack.length-1 > 0){
+            reversedString += stack.pop().value
+        }
+        return reversedString;
+    }
+
+//problem 2
+function isBalancedParenthesis(str) {
+    const stack = [];
+    const openingBracket = ['(', '{', '['];
+    const closingBracket = [')', '}', ']'];
+
+    for (let char of str) {
+        if (openingBracket.includes(char)) {
+            stack.push(char);
+        } else if (closingBracket.includes(char)) {
+            if (stack.length === 0) return false; // Ensure stack is not empty before popping
+
+            const lastOpenedBracket = stack.pop();
+            const matchingOpeningBracket = openingBracket[closingBracket.indexOf(char)];
+            
+            if (lastOpenedBracket !== matchingOpeningBracket) {
+                return false;
+            }
+        }
+    }
+    return stack.length === 0;
+}
+//3.sortStack the stack in ascending order using tempStack
+function sortStack(stack){
+    const tempStack = new Stack();
+    while(!stack.isEmpty()){
+        const current  = stack.pop();
+        while(!tempStack.isEmpty() && tempStack.peek() > current.value){
+            stack.push(tempStack.pop().value)
+        }
+        tempStack.push(current.value)
+    }
+    while(!tempStack.isEmpty()){
+        stack.push(tempStack.pop().value)
+    }
+}
+
+let first = new Stack(10);
+first.push(-20)
+first.push(30)
+first.push(-10)
+first.push(20)
+
+console.log("Orignal Stack:",JSON.stringify(first,null,2))
+sortStack(first)
+console.log("Sorted Stack:",JSON.stringify(first,null,2))
