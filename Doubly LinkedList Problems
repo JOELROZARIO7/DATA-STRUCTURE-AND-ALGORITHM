@@ -1,0 +1,83 @@
+class Node{
+    constructor(value){
+        this.value=(value)
+        this.next = null
+        this.prev = null
+    }
+}
+class doublyLinked{
+    constructor(value){
+        const newNode = new Node(value)
+        this.head = newNode
+        this.tail = this.head
+        this.length = 1
+    }
+    push(value){
+        const newNode = new Node(value)
+        if(this.length === 0){
+            this.head = newNode
+            this.tail = newNode
+        }else{
+            this.tail.next = newNode
+            newNode.prev = this.tail
+            this.tail= newNode
+        }
+        this.length ++
+        return this
+    }
+    //1.swap from first to tLast
+    swapFirstLast(){
+        if(this.length < 2 ) return this
+        let temp = this.head.value;
+        this.head.value = this.tail.value;
+        this.tail.value = temp;
+        return this;
+    }
+    //2.Reverse a list
+    reverse(){
+        let current = this.head
+        let temp = null
+        while(current !== null){
+            temp = current.prev
+            current.prev = current.next
+            current.next = temp
+            current=current.prev
+        }
+        temp = this.head
+        this.head = this.tail
+        this.tail = temp
+        return this
+    }
+    //3.Detect a cycle
+    detectCycle(){
+        let slow = this.head
+        let fast = this.head
+        while(fast !== null && fast.next !== null){
+            slow = slow.next
+            fast = fast.next.next
+            if(slow === fast){
+                return true
+            }
+        }
+        return false
+    }
+    //4.Palindrome 
+    isPalindrome(){
+        let foward = this.head
+        let backward = this.tail
+        for(let i=0; i< Math.floor(this.length/2);i++){
+            if(foward.value !== backward.value){
+                return false
+            }
+            foward = foward.next
+            backward =  backward.prev
+        }
+        return true
+        
+    }
+}
+
+let first = new doublyLinked(10)
+first.push(20)
+first.push(20)
+first.push(10)
